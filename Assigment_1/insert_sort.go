@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 )
 
@@ -50,7 +51,9 @@ func main() {
 func generateRandomArray(size int) []int {
 	arr := make([]int, size)
 	for i := 0; i < size; i++ {
-		arr[i] = i + 1 // Just an example, you can modify this based on your requirements
+		// Generate a random integer between 0 and 9
+		arr[i] = rand.Intn(100)
+
 	}
 	return arr
 }
