@@ -54,7 +54,7 @@ func main() {
 func generateRandomArray(size int) []int {
 	arr := make([]int, size)
 	for i := 0; i < size; i++ {
-		// Generate a random integer between 0 and 9
+		// Generate a random integer between 0 and 100
 		arr[i] = rand.Intn(100)
 
 	}
