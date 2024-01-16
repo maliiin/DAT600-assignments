@@ -30,6 +30,7 @@ func insertionSort(arr []int) int {
 func main() {
 	// Example usage:
 	sizes := []int{6, 12, 24, 48, 96, 192, 384, 768, 1536, 3072, 6144, 12288, 24576, 49152}
+	totTime := 0 * time.Second
 	for _, size := range sizes {
 		arr := generateRandomArray(size)
 
@@ -40,12 +41,14 @@ func main() {
 
 		// Calculate execution time
 		elapsedTime := time.Since(startTime)
-
+		totTime += elapsedTime
 		fmt.Printf("Array size: %d\n", size)
 		fmt.Println("Number of steps:", steps)
 		fmt.Println("Execution Time:", elapsedTime)
 		fmt.Println()
+
 	}
+	fmt.Println("Total time:", totTime)
 }
 
 func generateRandomArray(size int) []int {
