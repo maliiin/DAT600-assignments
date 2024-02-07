@@ -1,19 +1,22 @@
 def knapsack_fractions(units, capacity):
     value_per_weight_list = []
+    units_used = []
     tot_value = 0
     for weight, value in units:
         value_per_weight = value / weight
-        value_per_weight_list.append((value_per_weight,weight))
+        value_per_weight_list.append((value_per_weight,weight, value))
     value_per_weight_list.sort(reverse=True)
-    for value_per_weight, weight in value_per_weight_list:
+    for value_per_weight, weight, value in value_per_weight_list:
         if capacity > 0:
             if weight <= capacity:
                 capacity -= weight
                 tot_value += value_per_weight * weight
+                units_used.append((value, weight))
             else:
                 tot_value += value_per_weight * capacity
+                units_used.append((value, capacity))
                 capacity = 0
-    return tot_value
+    return tot_value, units_used
 
 
 def knapsack_0_1(units, capacity):
@@ -26,7 +29,7 @@ def knapsack_0_1(units, capacity):
         inner_list = [0] * (capacity + 1)
         table.append(inner_list)
 
-    # Fills the table, ignore 0 as that would return 0 always
+    # Fills the table, adds base case where there are no items
     for i in range(1, n + 1):
         for w in range(capacity + 1):
             weight, value = units[i - 1]
