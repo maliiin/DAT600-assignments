@@ -29,6 +29,8 @@ def knapsack_0_1(units, capacity):
         inner_list = [0] * (capacity + 1)
         table.append(inner_list)
 
+    selected_items = []
+
     # Fills the table, adds base case where there are no items
     for i in range(1, n + 1):
         for w in range(capacity + 1):
@@ -36,9 +38,18 @@ def knapsack_0_1(units, capacity):
             if weight > w:
                 #If weight is greater than capacity, set the value to the value of the previous item
                 table[i][w] = table[i - 1][w]   
+                selected_items.append(i - 1)
             else:
                 #Set the value to the maximum of the previous item or the current item plus the value of the previous item
                 table[i][w] = max(table[i - 1][w], value + table[i - 1][w - weight]) #https://www.youtube.com/watch?v=nLmhmB6NzcM
+    selected_units = [units[i] for i in selected_items]
+    unitmap = {}
+    for _, value in selected_units:
+        if value in unitmap:
+            unitmap[value] += 1
+        else:
+            unitmap[value] = 1
+    print(unitmap)
     return table[n][capacity]
 
 if __name__ == "__main__":
