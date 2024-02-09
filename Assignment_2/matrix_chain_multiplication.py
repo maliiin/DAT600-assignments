@@ -1,3 +1,4 @@
+# Function for creating m (number of scalar multiplications) and s (placement of parentheses)
 def matrix_chain_multiplication(p):
     n = len(p)- 1
     m = list()
@@ -17,7 +18,7 @@ def matrix_chain_multiplication(p):
                     s[i][j] = k + 1
     return m, s
 
-
+# Function for finding the final solution of parentheses placement
 def table_lookup(start, end, s_matrix):
     if (end - start) < 2:
         return ""
@@ -27,6 +28,8 @@ def table_lookup(start, end, s_matrix):
 
 
 if __name__ == "__main__":
+    # Matrix dimensions 
+    # (20x15 15x35 35x5 5x40 40x50)
     p_list = [20, 15, 35, 5, 40, 50]
     m_matrix, s_matrix = matrix_chain_multiplication(p_list)
     for row in m_matrix:
@@ -34,5 +37,5 @@ if __name__ == "__main__":
     for row in s_matrix:
         print(row)
 
-    print(f"Parentheses placement: {table_lookup(1, 5, s_matrix)}")
+    print(f"Parentheses placement: {table_lookup(1, len(p_list)-1, s_matrix)}")
 
