@@ -34,5 +34,5 @@ if __name__ == "__main__":
     for row in s_matrix:
         print(row)
 
-    print(f"Paratheses placement: {table_lookup(1, 5, s_matrix)}")
+    print(f"Parentheses placement: {table_lookup(1, 5, s_matrix)}")
 
