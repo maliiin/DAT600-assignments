@@ -18,9 +18,21 @@ def matrix_chain_multiplication(p):
     return m, s
 
 
+def table_lookup(start, end, s_matrix):
+    if (end - start) < 2:
+        return ""
+    new_split = s_matrix[start-1][end-1]
+    return f"{table_lookup(start, new_split, s_matrix)} {new_split} {table_lookup(new_split+1, end, s_matrix)}"
+    
+
+
 if __name__ == "__main__":
     p_list = [20, 15, 35, 5, 40, 50]
     m_matrix, s_matrix = matrix_chain_multiplication(p_list)
-    print(m_matrix)
-    print(s_matrix)
-    
+    for row in m_matrix:
+        print(row)
+    for row in s_matrix:
+        print(row)
+
+    print(f"Paratheses placement: {table_lookup(1, 5, s_matrix)}")
+
