@@ -31,6 +31,15 @@ def DFS(graph, start_node):
 
 
 def defeat_each_other(graph):
+    """
+    This function takes in a graph and returns a list of nodes that can defeat each other
+
+    Args:
+        graph (dict): A dictionary where the keys are the nodes and the values 
+                      are lists of the nodes that the key node is connected to
+    
+    Returns: A list of lists where each list contains the nodes that can defeat each other
+    """
     nodes_visited = []
     for node in graph:
         values = DFS(graph, node)
