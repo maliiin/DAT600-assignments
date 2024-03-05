@@ -69,3 +69,5 @@ similarity1 = compare_greedy_dynamic([1, 5, 11], 1000)
 similarity2 = compare_greedy_dynamic([1, 5, 10, 20], 1000)
 print(similarity1)
 print(similarity2)
+
+print(compare_greedy_dynamic([1, 2, 6, 18], 100))
