@@ -34,7 +34,28 @@ def defeat_each_other(graph):
     nodes_visited = []
     for node in graph:
         values = DFS(graph, node)
-        nodes_visited.append(values)
+        nodes_visited.append([node, values])
+    result_list = []
+    for item in nodes_visited:
+        key, value_dict = item
+        filtered_keys = [k for k, v in value_dict.items() if v]
+        result_list.append([key, filtered_keys])
+
+    merged_lists = {}
+    for node, second_list in result_list:
+        if node not in merged_lists:
+            merged_lists[node] = set()
+        for node2, second_list2 in result_list:
+            if node in second_list2 and node2 in second_list:
+                merged_lists[node].update([node, node2])
+
+    final_result = [list(merged_set) for merged_set in merged_lists.values()]
+
+    final_list = []  
+    for list_node in final_result:
+        if list_node not in final_list:
+            final_list.append(list_node)
+    print(final_list)                                                                          
 
 if __name__ == "__main__":
     graph = {
