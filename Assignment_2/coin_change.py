@@ -2,8 +2,9 @@ import copy
 
 
 def greedy_coin_change(c, N):
+    c.sort(reverse=True)
     selected_coins = []
-    for coin in reversed(c):
+    for coin in c:
         while coin <= N:
             selected_coins.append(coin)
             N -= coin
@@ -40,13 +41,31 @@ def dynamic_coin_change(c, N):
     return subproblems[N - 1]
 
 
-# print(greedy_coin_change([1, 3, 4], 6))
+def compare_greedy_dynamic(c, n):
+    similarity_count = 0
+    for i in range(1, n + 1):
+        greedy = greedy_coin_change(c, i)
+        dynamic = dynamic_coin_change(c, i)
+        greedy.sort()
+        dynamic.sort()
+        if dynamic == greedy:
+            similarity_count += 1
+    return similarity_count
+
+
+print(greedy_coin_change([5, 1, 11], 15))
 print(dynamic_coin_change([1, 5, 11], 15))
 print()
-print(dynamic_coin_change([1, 2, 8], 13))
-print(greedy_coin_change([1, 2, 8], 13))
+print(dynamic_coin_change([1, 2, 8, 9], 73))
+print(greedy_coin_change([1, 2, 8, 9], 73))
 print()
 
 # norwegian coins
 print(dynamic_coin_change([1, 5, 10, 20], 101))
 print(greedy_coin_change([1, 5, 10, 20], 101))
+
+
+similarity1 = compare_greedy_dynamic([1, 5, 11], 1000)
+similarity2 = compare_greedy_dynamic([1, 5, 10, 20], 1000)
+print(similarity1)
+print(similarity2)
