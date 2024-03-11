@@ -30,6 +30,17 @@ def DFS(graph, start_node):
     return visited
 
 
+def remove_duplicates(lst):
+    seen = set()
+    result = []
+    for item in lst:
+        # Sort the list and convert it to a tuple so it can be added to a set
+        sorted_tuple = tuple(sorted(item))
+        if sorted_tuple not in seen:
+            result.append(item)
+            seen.add(sorted_tuple)
+    return result
+
 def defeat_each_other(graph):
     """
     This function takes in a graph and returns a list of nodes that can defeat each other
@@ -64,6 +75,7 @@ def defeat_each_other(graph):
     for list_node in final_result:
         if list_node not in final_list:
             final_list.append(list_node)
+    final_list = remove_duplicates(final_list)
     print(final_list)                                                                          
 
 if __name__ == "__main__":
