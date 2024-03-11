@@ -1,7 +1,7 @@
 from itertools import combinations
 
 
-def transform_to_dag(nodes, edges):
+def transform_to_dag(edges):
     indexes = list()
     for i in range(len(edges)):
         indexes.append(i)
@@ -11,8 +11,6 @@ def transform_to_dag(nodes, edges):
         path = list()
         path.append(edges[comb[0]])
         for i in range(1, len(comb)):
-            if comb == (2, 6, 14):
-                print("hei")
             if len(comb) != 1:
                 if edges[comb[i]][0] == path[i-1][1]:
                     if edges[comb[i]][1] == path[0][0]:
@@ -22,19 +20,12 @@ def transform_to_dag(nodes, edges):
                         path.append(edges[comb[i]])
                 else:
                     break
-
-                # start_idx = comb[i%len(comb)]
-                # end_idx = comb[(i+1)%len(comb)]
-                # if edges[comb[i%len(comb)]][1] == edges[comb[(i+1)%len(comb)]][0]:
-                #     start = edges[comb[(i+1)%len(comb)]]
-                #     end = edges[comb[i%len(comb)]]
-                #     if edges[comb[(i+1)%len(comb)]][1] == edges[comb[i%len(comb)]][0]:
-                #         edges_to_remove.add((comb[i]%len(comb)))
                     
     dag = [edges[idx] for idx in indexes if idx not in edges_to_remove]
+    removed_edges = list()
     for edge in edges_to_remove:
-        print(edges[edge])
-    return dag
+        removed_edges.append(edges[edge])
+    return dag, removed_edges
 
     
 def generate_combinations(lst):
@@ -47,16 +38,12 @@ def generate_combinations(lst):
 
 
 if __name__ == "__main__":
-    nodes = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
+    # nodes = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
     edges = [("A", "B"), ("B", "C"), ("B", "D"), ("C", "E"), 
             ("C", "F"), ("D", "E"), ("D", "F"), ("E", "G"), 
             ("E", "F"), ("F", "G"), ("F", "H"), ("H", "I"), 
             ("F", "J"), ("J", "I"), ("F", "B"), ("I", "C"), ("C", "A")]
-    new_edges = transform_to_dag(nodes, edges)
-    print(len(edges))
-    print(len(new_edges))
-    print(edges)
-    print(new_edges)
-    new_edges2 = transform_to_dag(nodes, new_edges)
-    print(len(new_edges2))
+    dag, removed_edges = transform_to_dag(edges)
+    print(f"Edges in dag: {dag}")
+    print(f"Edges removed from original graph: {removed_edges}")
 
