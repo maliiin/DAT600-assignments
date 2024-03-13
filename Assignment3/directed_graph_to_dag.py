@@ -28,13 +28,13 @@ def transform_to_dag(edges):
     return dag, removed_edges
 
     
-def generate_combinations(lst):
-    all_combinations = []
-    n = len(lst)
+def generate_combinations(indexes):
+    combinations_list = []
+    n = len(indexes)
     for r in range(1, n+1): 
-        for comb in combinations(lst, r):
-            all_combinations.append(comb)
-    return all_combinations
+        for comb in combinations(indexes, r):
+            combinations_list.append(comb)
+    return combinations_list
 
 
 if __name__ == "__main__":
