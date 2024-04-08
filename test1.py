@@ -62,10 +62,8 @@ class Graph:
 			if graph[s][i]>0 and not visited[i]:
 				self.dfs(graph,i,visited)
 
-	# Returns the min-cut of the given graph 
 	def minCut(self, source, sink): 
-
-		# This array is filled by BFS and to store path 
+		# This array is filled by BFS and to store path
 		parent = [-1]*(self.ROW) 
 
 		max_flow = 0 # There is no flow initially 
@@ -79,7 +77,7 @@ class Graph:
 			path_flow = float("Inf") 
 			s = sink 
 			while(s != source): 
-				path_flow = min (path_flow, self.graph[parent[s]][s]) 
+				path_flow = min(path_flow, self.graph[parent[s]][s]) 
 				s = parent[s] 
 
 			# Add path flow to overall flow 
@@ -94,15 +92,14 @@ class Graph:
 				self.graph[v][u] += path_flow 
 				v = parent[v] 
 
-		visited=len(self.graph)*[False]
-		self.dfs(self.graph,s,visited)
+		visited = [False] * self.ROW
+		self.dfs(self.graph, source, visited)
 
-		# print the edges which initially had weights 
-		# but now have 0 weight 
+		# Print the edges which initially had weights 
+		# but now have 0 weight and are reachable from the source
 		for i in range(self.ROW): 
 			for j in range(self.COL): 
-				if self.graph[i][j] == 0 and\
-				self.org_graph[i][j] > 0 and visited[i]: 
+				if self.graph[i][j] == 0 and self.org_graph[i][j] > 0 and visited[i] and not visited[j]: 
 					print(str(i) + " - " + str(j))
 
 
