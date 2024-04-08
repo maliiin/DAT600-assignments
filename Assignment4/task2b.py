@@ -1,58 +1,50 @@
-from itertools import combinations
+from pulp import *
 
-class Graph:
-    def __init__(self):
-        self.adj_list = {}
+model = LpProblem("task1", LpMaximize)
 
-    def add_node(self, node):
-        if node not in self.adj_list:
-            self.adj_list[node] = []
+# link capasities
+sv1 = LpVariable("sv1", lowBound=0, upBound=14, cat="Integer")
+sv2 = LpVariable("sv2", lowBound=0, upBound=25, cat="Integer")
+v1v4 = LpVariable("v1v4", lowBound=0, upBound=21, cat="Integer")
+v1v3 = LpVariable("v1v3", lowBound=0, upBound=3, cat="Integer")
+v2v3 = LpVariable("v2v3", lowBound=0, upBound=13, cat="Integer")
+v2v5 = LpVariable("v2v5", lowBound=0, upBound=7, cat="Integer")
+v3v1 = LpVariable("v3v1", lowBound=0, upBound=6, cat="Integer")
+v3v5 = LpVariable("v3v5", lowBound=0, upBound=15, cat="Integer")
+v4v3 = LpVariable("v4v3", lowBound=0, upBound=10, cat="Integer")
+v4t = LpVariable("v4t", lowBound=0, upBound=20, cat="Integer")
+v5v4 = LpVariable("v5v4", lowBound=0, upBound=5, cat="Integer")
+v5t = LpVariable("v5t", lowBound=0, upBound=10, cat="Integer")
 
-    def add_edge(self, from_node, to_node, weight):
-        self.add_node(from_node)
-        self.add_node(to_node)
-        self.adj_list[from_node].append((to_node, weight))
 
-    def find_all_valid_cuts(self, source, sink):
-        valid_cuts = []
-        nodes = list(self.adj_list.keys())
-        for i in range(1, len(nodes)):
-            for subset in combinations(nodes, i):
-                if source in subset or sink in subset:
-                    continue
-                source_side = set(subset)
-                sink_side = set(nodes) - source_side
-                if source in source_side and sink in sink_side:
-                    valid_cuts.append((source_side, sink_side))
-        return valid_cuts
+# objective function
+model += sv1 + sv2, "max flow"
 
-# Example usage
-g = Graph()
-nodes = ['s', 't', 'v1', 'v2', 'v3', 'v4', 'v5']
-for node in nodes:
-    g.add_node(node)
 
-edges = [
-    ('s', 'v1', 14),
-    ('s', 'v2', 25),
-    ('v1', 'v3', 3),
-    ('v3', 'v1', 6),
-    ('v4', 'v3', 10),
-    ('v2', 'v3', 13),
-    ('v2', 'v5', 7),
-    ('v3', 'v5', 15),
-    ('v5', 'v4', 5),
-    ('v5', 't', 10),
-    ('v4', 't', 20)
-]
-for edge in edges:
-    g.add_edge(*edge)
+# constaints flow in=flow out
+model += sv1 + v3v1 == v1v3 + v1v4
+model += sv2 == v2v3 + v2v5
+model += v1v3 + v2v3 + v4v3 == v3v1 + v3v5
+model += v1v4 + v5v4 == v4v3 + v4t
+model += v3v5 + v3v5 == v5v4 + v5t
+# flow from s==flow in in t
+model += sv1 + sv2 == v4t + v5t
 
-source = 's'
-sink = 't'
-valid_cuts = g.find_all_valid_cuts(source, sink)
-print("All valid cuts:")
-for source_side, sink_side in valid_cuts:
-    print("Source side:", source_side)
-    print("Sink side:", sink_side)
-    print()
+
+model.solve()
+
+print("value of sv1", sv1.varValue)
+print("value of sv2", sv2.varValue)
+print("value of v1v4", v1v4.varValue)
+print("value of v1v3", v1v3.varValue)
+print("value of v2v3", v2v3.varValue)
+print("value of v2v5", v2v5.varValue)
+print("value of v3v1", v3v1.varValue)
+print("value of v3v5", v3v5.varValue)
+print("value of v4v3", v4v3.varValue)
+print("value of v4t", v4t.varValue)
+print("value of v5v4", v5v4.varValue)
+print("value of v5t", v5t.varValue)
+
+print(sv1.varValue + sv2.varValue)
+print(v4t.varValue + v5t.varValue)

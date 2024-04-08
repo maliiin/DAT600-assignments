@@ -19,3 +19,4 @@ model.solve()
 
 print("value of x", x.varValue)
 print("value of y", y.varValue)
+print(pulp.value(model.objective))
