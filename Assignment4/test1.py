@@ -12,8 +12,9 @@ class Graph:
 	def __init__(self,graph): 
 		self.graph = graph # residual graph 
 		self.org_graph = [i[:] for i in graph] 
-		self. ROW = len(graph) 
+		self.ROW = len(graph) 
 		self.COL = len(graph[0]) 
+		self.min_cut_edges = list()
 
 
 	'''Returns true if there is a path from 
@@ -100,7 +101,14 @@ class Graph:
 		for i in range(self.ROW): 
 			for j in range(self.COL): 
 				if self.graph[i][j] == 0 and self.org_graph[i][j] > 0 and visited[i] and not visited[j]: 
-					print(str(i) + " - " + str(j))
+					self.min_cut_edges.append((i, j))
+					print(f"{i}, {j}")
+
+	def find_max_flow(self):
+		flow_sum = 0
+		for edges in self.min_cut_edges:
+			flow_sum += self.org_graph[edges[0]][edges[1]]
+		return flow_sum
 
 
 #Create a graph given in the above diagram 
@@ -122,5 +130,6 @@ g = Graph(graph)
 source = 0; sink =6
 
 g.minCut(source, sink) 
+print(g.find_max_flow())
 
 # This code is contributed by Neelam Yadav 
